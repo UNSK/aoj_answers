@@ -1,0 +1,15 @@
+#include "stdc++.h"
+ 
+#define loop(n, i) for(int i=0;i<n;i++)
+#define all(v) v.begin(),v.end()
+#define HERE cout << "HERE: " << __LINE__ << endl;
+#define INSP(v) cout << v << " at " << __LINE__ << endl;
+
+using namespace std;
+typedef long long ll;
+
+int main()
+{
+    cout << "hoge" << endl;
+    return 0;
+}
