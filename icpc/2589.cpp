@@ -8,9 +8,6 @@
 using namespace std;
 typedef long long ll;
 
-template<int, int>
-using rational = pair<int,int>;
-
 int main()
 {
     int N = 0;
@@ -30,8 +27,8 @@ int main()
         }
 //        for(auto i : stack) cout << i;
 //        cout << endl;
-        vector<ratio> rs;
-        rs.push_back(rational<3,12>);
+        vector<pair<int,int>> rs;
+        rs.push_back({2,3});
         cout << rs[0].first << endl;
     }
 }

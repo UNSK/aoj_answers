@@ -10,15 +10,15 @@ typedef long long ll;
 
 
 int dfs(int i, int count, int sum, int n, int k, int s) {
-     if (count == n) {
+     if (count == k) {
          if (sum == s) return 1;
          else return 0;
-     } else if (count > n) return 0;
-     else {
+     } else if (count > k) {
+        return 0;
+     } else {
          int ans = 0;
          for (int j = i+1; j <= n; j++) {
              ans += dfs(j, count+1, j+sum, n, k, s);
-             INSP(ans)
          }
          return ans;
      }
