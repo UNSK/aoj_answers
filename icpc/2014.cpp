@@ -8,21 +8,40 @@
 using namespace std;
 typedef long long ll;
 
+
+int dfs(vector<vector<int>> *m, int h, int w) {
+    cout << (*m)[i][j];
+    if ((*m)[i][j] != -1) return (*m)[i][j];
+    if (h < 0 || w < 0 || h >= (*m).size() || w >= (*m)[h].size()) {
+        return -1;
+    }
+    if 
+    int u = dfs(m, h-1, w);
+    int d = dfs(m, h+1, w);
+    int r = dfs(m, h, w+1);
+    int l = dfs(m, h, w-1);
+    return 1;
+}
+
 int main()
 {
     int w, h;
     while (cin >> w >> h, w) {
-        vector<vector<char>> mat;
-        mat.resize(h);
+        vector<vector<char>> as;
+        as.resize(h);
         loop(h,i) {
             string s;
             cin >> s;
-            for (char c:s) mat[i].push_back(c);
+            for (char c:s) as[i].push_back(c);
         }
 
-        for (auto a:mat) {
-            for (auto c:a) cout << c;
+        vector<vector<int>> mat(h, vector<int>(w,-1));
+        loop(h,i){
+            loop(w,j){
+                mat[i][j] = dfs(&mat, i, j);
+            }
             cout << endl;
         }
+
     }
 }
