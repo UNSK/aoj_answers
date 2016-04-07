@@ -11,7 +11,7 @@ typedef long long ll;
 int f[50][50];
 
 bool contains(int *vs, int n) {
-    loop(sizeof(vs),i) if (vs[i] == n) return true;
+    loop(4,i) if (vs[i] == n) return true;
     return false;
 }
 
@@ -20,10 +20,10 @@ int dfs(vector<vector<int>> &m, int h, int w, vector<vector<char>> as) {
     if (h < 0 || w < 0 || h >= m.size() || w >= m[h].size()) {
         return 0;
     }
-    if (f[h][w]) return m[h][w];
-    f[h][w] = 1;
     if (as[h][w] == 'B') return 1;
     if (as[h][w] == 'W') return 2;
+    if (f[h][w]) return m[h][w];
+    f[h][w] = 1;
     int t[4];
     t[0] = dfs(m, h-1, w, as);
     t[1] = dfs(m, h+1, w, as);
@@ -32,21 +32,25 @@ int dfs(vector<vector<int>> &m, int h, int w, vector<vector<char>> as) {
     // debug
     cout << "(h,w)=" << '(' << h << ',' << w << ')' << endl;
     for (auto a:t) cout << a << ' ';
-    cout << endl;
+    //cout << endl;
 
     if (contains(t, 1)) {
         if (contains(t, 2)) {
             m[h][w] = 0;
+            cout << " return 0" << endl;
             return 0;
         } else {
             m[h][w] = 1;
+            cout << " return 1" << endl;
             return 1;
         }
     } else if (contains(t,2)) {
         m[h][w] = 2;
+        cout << " return 2" << endl;
         return 2;
     }
     m[h][w] = 0;
+    cout << " return 0" << endl;
     return 0;
 }
 
