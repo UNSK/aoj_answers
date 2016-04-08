@@ -10,12 +10,6 @@ typedef long long ll;
 
 int f[50][50];
 
-bool contains(int *vs, int n) {
-    loop(4,i) if (vs[i] == n) return true;
-    return false;
-}
-
-
 int dfs(vector<vector<int>> &m, int h, int w, vector<vector<char>> as) {
     if (h < 0 || w < 0 || h >= m.size() || w >= m[h].size()) {
         return 0;
@@ -24,34 +18,31 @@ int dfs(vector<vector<int>> &m, int h, int w, vector<vector<char>> as) {
     if (as[h][w] == 'W') return 2;
     if (f[h][w]) return m[h][w];
     f[h][w] = 1;
-    int t[4];
-    t[0] = dfs(m, h-1, w, as);
-    t[1] = dfs(m, h+1, w, as);
-    t[2] = dfs(m, h, w+1, as);
-    t[3] = dfs(m, h, w-1, as);
-    // debug
-    cout << "(h,w)=" << '(' << h << ',' << w << ')' << endl;
-    for (auto a:t) cout << a << ' ';
-    //cout << endl;
+    int t=0;
+    t |= dfs(m, h-1, w, as);
+    t |= dfs(m, h+1, w, as);
+    t |= dfs(m, h, w+1, as);
+    t |= dfs(m, h, w-1, as);
+    m[h][w] = t;
+    return t;
+}
 
-    if (contains(t, 1)) {
-        if (contains(t, 2)) {
-            m[h][w] = 0;
-            cout << " return 0" << endl;
-            return 0;
-        } else {
-            m[h][w] = 1;
-            cout << " return 1" << endl;
-            return 1;
-        }
-    } else if (contains(t,2)) {
-        m[h][w] = 2;
-        cout << " return 2" << endl;
-        return 2;
+int siage(vector<vector<int>> &m, int h, int w, vector<vector<char>> as, int max_num) {
+    if (h < 0 || w < 0 || h >= m.size() || w >= m[h].size()) {
+        return 0;
     }
-    m[h][w] = 0;
-    cout << " return 0" << endl;
-    return 0;
+    if (as[h][w] == 'B') return 0;
+    if (as[h][w] == 'W') return 0;
+    if (f[h][w]) return m[h][w];
+    f[h][w] = 1;
+    int t=0;
+    max_num = max(max_num, m[h][w]);
+    max_num = max(max_num, siage(m, h-1, w, as, max_num));
+    max_num = max(max_num, siage(m, h+1, w, as, max_num));
+    max_num = max(max_num, siage(m, h, w-1, as, max_num));
+    max_num = max(max_num, siage(m, h, w+1, as, max_num));
+    m[h][w] = max_num;
+    return max_num;
 }
 
 int main()
@@ -66,19 +57,38 @@ int main()
             cin >> s;
             for (char c:s) as[i].push_back(c);
         }
+       // for(auto mm:as) {
+       //     for (auto m:mm) cout << m << ' ';
+       //     cout << endl;
+       // }
 
         vector<vector<int>> mat(h, vector<int>(w,0));
         loop(h,i){
             loop(w,j){
-                dfs(mat, i, j, as);
+                if (as[i][j] == '.') {
+                    dfs(mat, i, j, as);
+                }
             }
-            cout << endl;
         }
+        loop(50,i) loop(50,j) f[i][j] = 0;
 
-       for(auto mm:mat) {
-           for (auto m:mm) cout << m << ' ';
-           cout << endl;
-       }
+        loop(h,i){
+            loop(w,j){
+                if (as[i][j] == '.') {
+                    siage(mat, i, j, as, 0);
+                }
+            }
+        }
+        int ans_w = 0, ans_b = 0;
+        for(auto mm:mat) {
+            for (auto m:mm) {
+                if (m == 1) ans_b++;
+                if (m == 2) ans_w++;
+                //cout << m << ' ';
+            }
+            //cout << endl;
+        }
+        cout << ans_b << ' ' << ans_w << endl;
 
     }
 }
