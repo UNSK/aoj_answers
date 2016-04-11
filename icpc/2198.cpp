@@ -29,8 +29,8 @@ int main()
 
         sort(all(crops),
                 [](pair<string, float> p1, pair<string, float> p2) -> int {
-                    if (p1.second != p2.second) {
-                        return p1.second > p2.second;
+                    if (islessgreater(p1.second, p2.second)) {
+                        return isgreater(p1.second, p2.second);
                     } else {
                         p1.first < p2.first;
                     }
