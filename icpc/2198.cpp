@@ -13,7 +13,7 @@ int main()
 {
     int n;
     while (cin >> n, n) {
-        vector<pair<string, float>> crops;
+        vector<pair<string, double>> crops;
         loop (n, i) {
             string name;
             int p, a, b, c, d, e, f, s, m;
@@ -24,15 +24,15 @@ int main()
                 time += d + e;
                 gain += f * s;
             }
-            crops.push_back(make_pair(name, (float)gain/time));
+            crops.push_back(make_pair(name, (double)gain/time));
         }
 
         sort(all(crops),
-                [](pair<string, float> p1, pair<string, float> p2) -> int {
+                [](pair<string, double> p1, pair<string, double> p2) -> int {
                     if (islessgreater(p1.second, p2.second)) {
                         return isgreater(p1.second, p2.second);
                     } else {
-                        p1.first < p2.first;
+                        return p1.first < p2.first;
                     }
                 });
         for (auto m : crops) {
